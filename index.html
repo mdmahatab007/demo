@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSocial Development Alliance — Growing Nature, Empowering People</title>
+  <meta name="description" content="EcoSocial Development Alliance is a non-profit organization dedicated to environmental sustainability and social development in Bangladesh.">
+  <meta name="keywords" content="EcoSocial, Development Alliance, environment, Bangladesh, NGO, sustainability, community development">
+  <meta property="og:title" content="EcoSocial Development Alliance">
+  <meta property="og:description" content="Growing Nature, Empowering People. Join our mission for a sustainable future.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    /* HOME HERO */
+    .hero {
+      margin-top: 70px;
+      min-height: calc(100vh - 70px);
+      background: linear-gradient(160deg, #0d3a18 0%, #1a5c2a 35%, #023e8a 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 60px 24px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(82,183,136,0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0,119,182,0.18) 0%, transparent 50%);
+    }
+
+    .hero-world {
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 560px;
+      height: 560px;
+      opacity: 0.08;
+      font-size: 560px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-text {
+      color: white;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(82,183,136,0.2);
+      border: 1px solid rgba(82,183,136,0.4);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: #90e0ef;
+      margin-bottom: 24px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .hero-badge::before { content: '🌿'; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, #52b788, #90e0ef);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.35);
+      color: white;
+      transition: all 0.25s;
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-founder-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 24px;
+      padding: 32px 28px;
+      text-align: center;
+      color: white;
+      max-width: 320px;
+      width: 100%;
+      position: relative;
+    }
+
+    .hero-founder-img-wrap {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 4px solid rgba(82,183,136,0.5);
+      margin: 0 auto 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2e8b57, #023e8a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+
+    .hero-founder-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-founder-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #52b788, #2e8b57);
+      color: white;
+      padding: 5px 18px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .hero-founder-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .hero-founder-role {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 16px;
+    }
+
+    .hero-founder-org {
+      background: rgba(82,183,136,0.2);
+      border: 1px solid rgba(82,183,136,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #90e0ef;
+    }
+
+    /* STATS */
+    .stats-bar {
+      background: var(--green-deep);
+      padding: 0;
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide: none;
+    }
+
+    .stat-item {
+      padding: 32px 24px;
+      text-align: center;
+      color: white;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #52b788;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* MEMBERS SECTION */
+    .members-section {
+      padding: 80px 24px;
+    }
+
+    .members-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* MISSION STRIP */
+    .mission-strip {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--blue-ocean) 100%);
+      padding: 72px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mission-strip::before {
+      content: '🌍';
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.04;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    .mission-strip-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .mission-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: white;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .mission-strip p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+    }
+
+    /* GALLERY PREVIEW */
+    .gallery-preview {
+      padding: 80px 24px;
+      background: #f0f7f2;
+    }
+
+    .gallery-preview-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .preview-footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .hero-founder-card { max-width: 280px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-world">🌍</div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">EcoSocial Development Alliance</div>
+        <h1 class="hero-title">
+          Growing Nature,<br>
+          <span>Empowering People</span>
+        </h1>
+        <p class="hero-desc" id="hero-desc">
+          A passionate community of changemakers working together for a sustainable, equitable, and nature-positive future in Bangladesh and beyond.
+        </p>
+        <div class="hero-actions">
+          <a href="join.html" class="btn btn-primary">Join as Member 🌿</a>
+          <a href="about.html" class="hero-btn-secondary">Learn More →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-founder-card" id="hero-founder-card">
+          <div class="hero-founder-badge">Welcome to Our Organisation</div>
+          <div class="hero-founder-img-wrap" id="founder-img-wrap">🌿</div>
+          <div class="hero-founder-name" id="founder-name">Mozahid Howlader</div>
+          <div class="hero-founder-role" id="founder-role">Founder</div>
+          <div class="hero-founder-org">EcoSocial Development Alliance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-bar">
+    <div class="stats-inner" id="stats-bar"></div>
+  </section>
+
+  <!-- MEMBERS -->
+  <section class="members-section">
+    <div class="members-inner">
+      <div class="section-title">Our Members</div>
+      <div class="section-subtitle">Meet the dedicated team behind EcoSocial Development Alliance</div>
+      <div class="divider"></div>
+      <div class="card-grid" id="members-grid"></div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission-strip">
+    <div class="mission-strip-inner">
+      <h2>Ready to Make a Difference?</h2>
+      <p>Join thousands of changemakers who are already part of the EcoSocial family. Together, we can build a greener, fairer world for future generations.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="join.html" class="btn btn-primary">Join as a Member</a>
+        <a href="gallery.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:50px;font-weight:600;font-size:.95rem;text-decoration:none;border:2px solid rgba(255,255,255,.35);color:white;transition:all .25s;">View Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY PREVIEW -->
+  <section class="gallery-preview">
+    <div class="gallery-preview-inner">
+      <div class="section-title">Our Work in Action</div>
+      <div class="section-subtitle">A glimpse of our projects and community initiatives</div>
+      <div class="divider"></div>
+      <div class="card-grid" id="gallery-preview-grid"></div>
+      <div class="preview-footer">
+        <a href="gallery.html" class="btn btn-primary">View Full Gallery →</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+  <div id="contact-fab-placeholder"></div>
+
+  <script src="data.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = renderNav('home');
+    document.getElementById('footer-placeholder').innerHTML = renderFooter();
+    document.getElementById('contact-fab-placeholder').innerHTML = renderContactFAB();
+
+    const data = getSiteData();
+
+    // Founder card
+    const founder = data.members.find(m => m.featured) || data.members[0];
+    if (founder) {
+      document.getElementById('founder-name').textContent = founder.name;
+      document.getElementById('founder-role').textContent = founder.role;
+      const imgWrap = document.getElementById('founder-img-wrap');
+      if (founder.image) {
+        imgWrap.innerHTML = `<img src="${founder.image}" alt="${founder.name}">`;
+      }
+    }
+
+    // Stats
+    const stats = data.aboutUs.stats;
+    document.getElementById('stats-bar').innerHTML = stats.map(s => `
+      <div class="stat-item">
+        <div class="stat-number">${s.number}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>
+    `).join('');
+
+    // Members grid
+    document.getElementById('members-grid').innerHTML = data.members.map(m => `
+      <div class="member-card">
+        ${m.image
+          ? `<img src="${m.image}" alt="${m.name}" class="member-card-img">`
+          : `<div class="member-card-img-placeholder">🌿</div>`
+        }
+        <div class="member-card-body">
+          <span class="member-card-badge">${m.badge}</span>
+          <div class="member-card-name">${m.name}</div>
+          <div class="member-card-role">${m.role}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Gallery preview (first 3)
+    document.getElementById('gallery-preview-grid').innerHTML = data.gallery.slice(0,3).map(g => `
+      <div class="gallery-card">
+        ${g.image
+          ? `<img src="${g.image}" alt="${g.caption}">`
+          : `<div class="gallery-card-placeholder">📸</div>`
+        }
+        <div class="gallery-card-caption">${g.caption}</div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>

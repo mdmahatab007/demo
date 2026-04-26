@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — EcoSocial Development Alliance</title>
+  <meta name="description" content="Explore our gallery of projects, events, and community initiatives by EcoSocial Development Alliance.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 2px solid var(--green-mid);
+      background: transparent;
+      color: var(--green-mid);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.22s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--green-mid);
+      color: white;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .gallery-item {
+      cursor: pointer;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .gallery-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--green-pale), var(--blue-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .gallery-meta {
+      padding: 16px;
+    }
+
+    .gallery-meta-cat {
+      display: inline-block;
+      background: var(--green-pale);
+      color: var(--green-deep);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 50px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .gallery-meta-caption {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-light);
+    }
+
+    .empty-state .icon { font-size: 4rem; margin-bottom: 16px; }
+    .empty-state h3 { font-family: 'Playfair Display',serif; margin-bottom: 8px; color: var(--text); }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-hero">
+    <h1>Our Gallery</h1>
+    <p>Moments of impact — projects, events, and community stories</p>
+  </div>
+
+  <div class="section">
+    <div class="filter-bar" id="filter-bar"></div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="contact-fab-placeholder"></div>
+
+  <script src="data.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = renderNav('gallery');
+    document.getElementById('footer-placeholder').innerHTML = renderFooter();
+    document.getElementById('contact-fab-placeholder').innerHTML = renderContactFAB();
+
+    const data = getSiteData();
+    let activeFilter = 'All';
+
+    // Build categories
+    const cats = ['All', ...new Set(data.gallery.map(g => g.category).filter(Boolean))];
+
+    document.getElementById('filter-bar').innerHTML = cats.map(c => `
+      <button class="filter-btn ${c === 'All' ? 'active' : ''}" onclick="filterGallery('${c}', this)">${c}</button>
+    `).join('');
+
+    function filterGallery(cat, btn) {
+      activeFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const items = activeFilter === 'All'
+        ? data.gallery
+        : data.gallery.filter(g => g.category === activeFilter);
+
+      if (!items.length) {
+        document.getElementById('gallery-grid').innerHTML = `
+          <div class="empty-state">
+            <div class="icon">📸</div>
+            <h3>No photos yet</h3>
+            <p>Gallery items will appear here once added from the admin panel.</p>
+          </div>`;
+        return;
+      }
+
+      document.getElementById('gallery-grid').innerHTML = items.map(g => `
+        <div class="gallery-item" onclick="openLightbox('${g.image || ''}', '${g.caption}')">
+          ${g.image
+            ? `<img src="${g.image}" alt="${g.caption}" class="gallery-img">`
+            : `<div class="gallery-placeholder">📸</div>`
+          }
+          <div class="gallery-meta">
+            ${g.category ? `<span class="gallery-meta-cat">${g.category}</span>` : ''}
+            <div class="gallery-meta-caption">${g.caption}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openLightbox(src, caption) {
+      if (!src) return;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    renderGallery();
+  </script>
+</body>
+</html>

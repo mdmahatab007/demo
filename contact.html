@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — EcoSocial Development Alliance</title>
+  <meta name="description" content="Get in touch with EcoSocial Development Alliance via Facebook or Email. We'd love to hear from you.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .contact-page {
+      padding: 80px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .contact-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 56px;
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      display: block;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .contact-card.fb:hover { border-color: #1877f2; }
+    .contact-card.email:hover { border-color: var(--green-mid); }
+
+    .contact-card-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+    }
+
+    .contact-card.fb .contact-card-icon {
+      background: #e7f0fd;
+      color: #1877f2;
+    }
+
+    .contact-card.email .contact-card-icon {
+      background: var(--green-pale);
+      color: var(--green-deep);
+    }
+
+    .contact-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+
+    .contact-card p {
+      color: var(--text-light);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .contact-card .link-badge {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .contact-card.fb .link-badge {
+      background: #1877f2;
+      color: white;
+    }
+
+    .contact-card.email .link-badge {
+      background: var(--green-mid);
+      color: white;
+    }
+
+    /* INFO SECTION */
+    .info-section {
+      background: linear-gradient(135deg, var(--green-deep), var(--blue-ocean));
+      border-radius: 24px;
+      padding: 48px;
+      color: white;
+      text-align: center;
+    }
+
+    .info-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+    }
+
+    .info-section p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .contact-info-items {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.9);
+      font-size: 0.92rem;
+    }
+
+    .contact-info-item .ic {
+      width: 38px;
+      height: 38px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .contact-cards { grid-template-columns: 1fr; }
+      .info-section { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-hero">
+    <h1>Contact Us</h1>
+    <p>Reach out — we're here to connect and collaborate</p>
+  </div>
+
+  <div class="contact-page">
+    <div class="section-title" style="text-align:center;">Get in Touch</div>
+    <div class="section-subtitle" style="text-align:center;">Choose your preferred way to connect with us</div>
+    <div class="divider" style="margin:12px auto 48px;"></div>
+
+    <div class="contact-cards">
+      <a href="#" class="contact-card fb" id="fb-card">
+        <div class="contact-card-icon">f</div>
+        <h3>Facebook</h3>
+        <p>Follow us and send us a message on our Facebook page. We're very active and respond quickly!</p>
+        <span class="link-badge">Open Facebook →</span>
+      </a>
+
+      <a href="#" class="contact-card email" id="email-card">
+        <div class="contact-card-icon">✉</div>
+        <h3>Email Us</h3>
+        <p>Send us an email and we'll respond within 24-48 hours. For partnerships, inquiries, and more.</p>
+        <span class="link-badge" id="email-badge">Send Email →</span>
+      </a>
+    </div>
+
+    <div class="info-section">
+      <h3>We'd Love to Hear From You</h3>
+      <p>Whether you want to collaborate, volunteer, donate, or simply learn more about our work — don't hesitate to reach out.</p>
+      <div class="contact-info-items">
+        <div class="contact-info-item">
+          <div class="ic">f</div>
+          <span id="fb-display">EcoSocial Development Alliance</span>
+        </div>
+        <div class="contact-info-item">
+          <div class="ic">✉</div>
+          <span id="email-display">eco.sd.alliance@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="contact-fab-placeholder"></div>
+
+  <script src="data.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = renderNav('contact');
+    document.getElementById('footer-placeholder').innerHTML = renderFooter();
+    document.getElementById('contact-fab-placeholder').innerHTML = renderContactFAB();
+
+    const data = getSiteData();
+    const si = data.siteInfo;
+
+    document.getElementById('fb-card').href = si.facebook;
+    document.getElementById('email-card').href = `mailto:${si.email}`;
+    document.getElementById('email-badge').textContent = si.email;
+    document.getElementById('email-display').textContent = si.email;
+    document.getElementById('fb-card').target = '_blank';
+  </script>
+</body>
+</html>

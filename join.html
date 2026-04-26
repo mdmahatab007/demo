@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join as a Member — EcoSocial Development Alliance</title>
+  <meta name="description" content="Join EcoSocial Development Alliance as a member and be part of the change for a sustainable future.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .join-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .join-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 14px;
+    }
+
+    .join-info > p {
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .benefits-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green-mid);
+      margin-bottom: 18px;
+    }
+
+    .benefits-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 40px;
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .benefits-list li span {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .join-cta-card {
+      background: linear-gradient(135deg, var(--green-deep), var(--blue-ocean));
+      border-radius: 24px;
+      padding: 52px 44px;
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 90px;
+    }
+
+    .join-cta-card .icon {
+      font-size: 3.5rem;
+      margin-bottom: 24px;
+    }
+
+    .join-cta-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .join-cta-card p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .join-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--green-deep);
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .join-cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.28);
+    }
+
+    .no-form-notice {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .join-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .join-stat {
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      padding: 18px 14px;
+      text-align: center;
+    }
+
+    .join-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #90e0ef;
+    }
+
+    .join-stat-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .join-layout { grid-template-columns: 1fr; }
+      .join-cta-card { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-hero">
+    <h1>Join as a Member</h1>
+    <p>Be part of the change you want to see in the world</p>
+  </div>
+
+  <div class="join-layout">
+    <div class="join-info">
+      <h2 id="join-title">Join Our Alliance</h2>
+      <p id="join-description">Becoming a member of EcoSocial Development Alliance means joining a passionate community of changemakers.</p>
+
+      <div class="benefits-title">✨ Member Benefits</div>
+      <ul class="benefits-list" id="benefits-list"></ul>
+
+      <div style="background:var(--green-pale);border-radius:var(--radius);padding:24px;">
+        <div style="font-weight:600;color:var(--green-deep);margin-bottom:8px;">📋 How to Join</div>
+        <div style="font-size:.92rem;color:var(--text);line-height:1.7;">
+          Fill out the membership form by clicking the button on the right. Our team will review your application and get back to you within 3-5 business days.
+        </div>
+      </div>
+    </div>
+
+    <div class="join-cta-card">
+      <div class="icon">🌿</div>
+      <h3>Ready to Join?</h3>
+      <p id="join-subtitle">Complete our membership form and become part of something bigger than yourself.</p>
+
+      <div id="join-btn-wrap">
+        <div class="no-form-notice">
+          🔗 Membership form link will be added soon.<br>Check back or contact us via the buttons below.
+        </div>
+      </div>
+
+      <div class="join-stats" id="join-stats"></div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+  <div id="contact-fab-placeholder"></div>
+
+  <script src="data.js"></script>
+  <script>
+    document.getElementById('nav-placeholder').innerHTML = renderNav('join');
+    document.getElementById('footer-placeholder').innerHTML = renderFooter();
+    document.getElementById('contact-fab-placeholder').innerHTML = renderContactFAB();
+
+    const data = getSiteData();
+    const jp = data.joinPage;
+    const au = data.aboutUs;
+
+    document.getElementById('join-title').textContent = jp.title;
+    document.getElementById('join-description').textContent = jp.description;
+    document.getElementById('join-subtitle').textContent = jp.subtitle;
+
+    document.getElementById('benefits-list').innerHTML = jp.benefits.map(b => `
+      <li><span>${b.split(' ')[0]}</span> <span>${b.split(' ').slice(1).join(' ')}</span></li>
+    `).join('');
+
+    if (jp.formLink) {
+      document.getElementById('join-btn-wrap').innerHTML = `
+        <a href="${jp.formLink}" target="_blank" class="join-cta-btn">
+          📝 Fill Membership Form
+        </a>
+      `;
+    }
+
+    document.getElementById('join-stats').innerHTML = au.stats.slice(0,4).map(s => `
+      <div class="join-stat">
+        <div class="join-stat-num">${s.number}</div>
+        <div class="join-stat-label">${s.label}</div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>

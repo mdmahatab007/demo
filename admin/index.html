@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — EcoSocial Development Alliance</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🌿</div>
+      <div class="sidebar-logo-text">
+        <span class="brand">EcoSocial</span>
+        <span class="sub">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="sidebar-label">Main</div>
+    <ul class="sidebar-nav">
+      <li><a onclick="showSection('dashboard')" class="active" id="nav-dashboard">
+        <span class="icon">📊</span> Dashboard
+      </a></li>
+    </ul>
+
+    <div class="sidebar-label">Content</div>
+    <ul class="sidebar-nav">
+      <li><a onclick="showSection('home')" id="nav-home">
+        <span class="icon">🏠</span> Home Page
+      </a></li>
+      <li><a onclick="showSection('members')" id="nav-members">
+        <span class="icon">👥</span> Members
+      </a></li>
+      <li><a onclick="showSection('gallery')" id="nav-gallery">
+        <span class="icon">🖼️</span> Gallery
+      </a></li>
+      <li><a onclick="showSection('about')" id="nav-about">
+        <span class="icon">ℹ️</span> About Us
+      </a></li>
+      <li><a onclick="showSection('join')" id="nav-join">
+        <span class="icon">📝</span> Join as Member
+      </a></li>
+    </ul>
+
+    <div class="sidebar-label">Settings</div>
+    <ul class="sidebar-nav">
+      <li><a onclick="showSection('social')" id="nav-social">
+        <span class="icon">🔗</span> Social Links
+      </a></li>
+      <li><a onclick="showSection('siteinfo')" id="nav-siteinfo">
+        <span class="icon">⚙️</span> Site Info
+      </a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" target="_blank">🌐 View Website →</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button onclick="document.getElementById('sidebar').classList.toggle('open')"
+          style="display:none;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--green-deep);"
+          id="burger-btn">☰</button>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm">🌐 View Site</a>
+        <button class="btn btn-primary btn-sm" onclick="saveAll()">💾 Save All</button>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="admin-section active" id="section-dashboard">
+        <div class="dash-stats" id="dash-stats-row"></div>
+
+        <div class="panel">
+          <div class="panel-header"><h2>🚀 Quick Actions</h2></div>
+          <div class="panel-body" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;">
+            <button class="btn btn-primary" onclick="showSection('members');openMemberModal()">➕ Add Member</button>
+            <button class="btn btn-primary" onclick="showSection('gallery');openGalleryModal()">📸 Add Gallery Photo</button>
+            <button class="btn btn-outline" onclick="showSection('about')">✏️ Edit About Us</button>
+            <button class="btn btn-outline" onclick="showSection('social')">🔗 Update Social Links</button>
+            <button class="btn btn-outline" onclick="showSection('join')">📝 Set Join Form Link</button>
+            <button class="btn btn-outline" onclick="showSection('siteinfo')">⚙️ Site Settings</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><h2>ℹ️ How This Admin Panel Works</h2></div>
+          <div class="panel-body">
+            <p style="font-size:.92rem;line-height:1.75;color:var(--text);">
+              All changes you make here are stored in your browser (localStorage) and reflected on the website immediately.
+              Use the <strong>sidebar</strong> to navigate sections. Each section lets you add, edit, or delete content.
+              Images should be uploaded via the image fields — they are stored as base64 data.
+              <br><br>
+              <strong>Pages:</strong> Home · Gallery · About Us · Contact Us · Join as Member<br>
+              <strong>To add your Google Form link,</strong> go to <em>Join as Member</em> and paste the URL.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== HOME ===== -->
+      <div class="admin-section" id="section-home">
+        <div class="panel">
+          <div class="panel-header"><h2>🏠 Home Page Settings</h2></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Hero Description Text</label>
+              <textarea class="form-control" id="home-hero-desc" rows="3"
+                placeholder="Short description shown in the hero section"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Stats (shown on home + about pages)</label>
+              <div class="stat-edit-grid" id="stats-editor"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveHomeSection()">💾 Save Home Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MEMBERS ===== -->
+      <div class="admin-section" id="section-members">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>👥 Members</h2>
+            <button class="btn btn-primary" onclick="openMemberModal()">➕ Add Member</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Badge</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="members-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== GALLERY ===== -->
+      <div class="admin-section" id="section-gallery">
+        <div class="panel">
+          <div class="panel-header">
+            <h2>🖼️ Gallery</h2>
+            <button class="btn btn-primary" onclick="openGalleryModal()">➕ Add Photo</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Preview</th>
+                  <th>Caption</th>
+                  <th>Category</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="gallery-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ABOUT ===== -->
+      <div class="admin-section" id="section-about">
+        <div class="panel">
+          <div class="panel-header"><h2>ℹ️ About Us Content</h2></div>
+          <div class="panel-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Page Title</label>
+                <input type="text" class="form-control" id="about-title">
+              </div>
+              <div class="form-group">
+                <label>Subtitle</label>
+                <input type="text" class="form-control" id="about-subtitle">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Main Content (use blank lines to separate paragraphs)</label>
+              <textarea class="form-control" id="about-content" rows="8"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Mission Statement</label>
+                <textarea class="form-control" id="about-mission" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Vision Statement</label>
+                <textarea class="form-control" id="about-vision" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Founder Name</label>
+                <input type="text" class="form-control" id="about-founder-name">
+              </div>
+              <div class="form-group">
+                <label>Founder Role</label>
+                <input type="text" class="form-control" id="about-founder-role">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Founder Bio</label>
+              <textarea class="form-control" id="about-founder-bio" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="saveAboutSection()">💾 Save About Us</button>
+          </div>
+        </div>
+
+        <!-- Values Editor -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2>💡 Core Values</h2>
+            <button class="btn btn-outline btn-sm" onclick="addValue()">➕ Add Value</button>
+          </div>
+          <div class="panel-body" id="values-editor"></div>
+        </div>
+      </div>
+
+      <!-- ===== JOIN ===== -->
+      <div class="admin-section" id="section-join">
+        <div class="panel">
+          <div class="panel-header"><h2>📝 Join as Member Page</h2></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Page Title</label>
+              <input type="text" class="form-control" id="join-title">
+            </div>
+            <div class="form-group">
+              <label>Subtitle (shown in hero)</label>
+              <input type="text" class="form-control" id="join-subtitle">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control" id="join-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Google Form Link <span style="color:var(--text-light);font-weight:400;">(paste your Google Form URL here)</span></label>
+              <input type="url" class="form-control" id="join-form-link" placeholder="https://forms.google.com/...">
+            </div>
+            <div class="form-group">
+              <label>Member Benefits (one per line)</label>
+              <textarea class="form-control" id="join-benefits" rows="8" placeholder="🌿 Access to exclusive events&#10;🤝 Network with changemakers"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="saveJoinSection()">💾 Save Join Page</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SOCIAL ===== -->
+      <div class="admin-section" id="section-social">
+        <div class="panel">
+          <div class="panel-header"><h2>🔗 Social Links & Contact</h2></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Facebook Page URL</label>
+              <input type="url" class="form-control" id="social-facebook"
+                placeholder="https://www.facebook.com/...">
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" class="form-control" id="social-email"
+                placeholder="your@email.com">
+            </div>
+            <button class="btn btn-primary" onclick="saveSocialSection()">💾 Save Social Links</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SITE INFO ===== -->
+      <div class="admin-section" id="section-siteinfo">
+        <div class="panel">
+          <div class="panel-header"><h2>⚙️ Site Information</h2></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Organisation Name</label>
+              <input type="text" class="form-control" id="site-name">
+            </div>
+            <div class="form-group">
+              <label>Tagline</label>
+              <input type="text" class="form-control" id="site-tagline">
+            </div>
+            <button class="btn btn-primary" onclick="saveSiteInfo()">💾 Save Site Info</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><h2>🗑️ Danger Zone</h2></div>
+          <div class="panel-body" style="background:#fff5f5;border-radius:var(--radius-sm);">
+            <p style="font-size:.88rem;color:var(--danger);margin-bottom:16px;">
+              ⚠️ This will reset ALL site data to defaults. This cannot be undone.
+            </p>
+            <button class="btn btn-danger" onclick="resetAllData()">Reset All Data to Defaults</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+</div><!-- /admin-layout -->
+
+<!-- MEMBER MODAL -->
+<div class="modal-overlay" id="member-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="member-modal-title">Add Member</h3>
+      <button class="modal-close" onclick="closeMemberModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="member-edit-id">
+      <div class="form-group">
+        <label>Photo</label>
+        <div class="img-upload-wrap" id="member-img-drop">
+          <input type="file" accept="image/*" onchange="handleMemberImg(this)">
+          <img id="member-img-preview" class="img-preview" src="" alt="" style="display:none;">
+          <span id="member-img-icon">📷</span>
+          <p>Click to upload photo (optional)</p>
+        </div>
+        <input type="hidden" id="member-img-data">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" class="form-control" id="member-name" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label>Role / Position *</label>
+          <input type="text" class="form-control" id="member-role" placeholder="e.g. Field Coordinator">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Badge Label</label>
+          <input type="text" class="form-control" id="member-badge" placeholder="e.g. Leadership">
+        </div>
+        <div class="form-group">
+          <label>Featured on Homepage?</label>
+          <select class="form-control" id="member-featured">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeMemberModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveMember()">💾 Save Member</button>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY MODAL -->
+<div class="modal-overlay" id="gallery-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="gallery-modal-title">Add Gallery Photo</h3>
+      <button class="modal-close" onclick="closeGalleryModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="gallery-edit-id">
+      <div class="form-group">
+        <label>Photo</label>
+        <div class="img-upload-wrap" id="gallery-img-drop" style="border-radius:12px;">
+          <input type="file" accept="image/*" onchange="handleGalleryImg(this)">
+          <img id="gallery-img-preview" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;display:none;margin-bottom:8px;">
+          <span id="gallery-img-icon">📸</span>
+          <p>Click to upload photo</p>
+        </div>
+        <input type="hidden" id="gallery-img-data">
+      </div>
+      <div class="form-group">
+        <label>Caption *</label>
+        <input type="text" class="form-control" id="gallery-caption" placeholder="Describe the photo">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" class="form-control" id="gallery-category"
+          placeholder="e.g. Environment, Community, Events">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeGalleryModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGalleryItem()">💾 Save Photo</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="../data.js"></script>
+<script>
+// =================== STATE ===================
+let data = getSiteData();
+
+// =================== NAVIGATION ===================
+const sections = ['dashboard','home','members','gallery','about','join','social','siteinfo'];
+const sectionTitles = {
+  dashboard:'Dashboard', home:'Home Page', members:'Members',
+  gallery:'Gallery', about:'About Us', join:'Join as Member',
+  social:'Social Links', siteinfo:'Site Settings'
+};
+
+function showSection(name) {
+  sections.forEach(s => {
+    document.getElementById('section-' + s).classList.toggle('active', s === name);
+    const nav = document.getElementById('nav-' + s);
+    if (nav) nav.classList.toggle('active', s === name);
+  });
+  document.getElementById('topbar-title').textContent = sectionTitles[name] || name;
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'members') renderMembersTable();
+  if (name === 'gallery') renderGalleryTable();
+  if (name === 'home') loadHomeSection();
+  if (name === 'about') loadAboutSection();
+  if (name === 'join') loadJoinSection();
+  if (name === 'social') loadSocialSection();
+  if (name === 'siteinfo') loadSiteInfo();
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// =================== DASHBOARD ===================
+function renderDashboard() {
+  const d = getSiteData();
+  document.getElementById('dash-stats-row').innerHTML = `
+    <div class="dash-stat"><div class="dash-stat-num">${d.members.length}</div><div class="dash-stat-label">Members</div></div>
+    <div class="dash-stat blue"><div class="dash-stat-num">${d.gallery.length}</div><div class="dash-stat-label">Gallery Items</div></div>
+    <div class="dash-stat gold"><div class="dash-stat-num">${d.joinPage.formLink ? '✅' : '⏳'}</div><div class="dash-stat-label">Join Form</div></div>
+    <div class="dash-stat deep"><div class="dash-stat-num">5</div><div class="dash-stat-label">Pages</div></div>
+  `;
+}
+
+// =================== MEMBERS ===================
+function renderMembersTable() {
+  data = getSiteData();
+  document.getElementById('members-table-body').innerHTML = data.members.map(m => `
+    <tr>
+      <td>
+        <div class="table-avatar">
+          ${m.image ? `<img src="${m.image}" alt="">` : '🌿'}
+        </div>
+      </td>
+      <td><div class="td-name">${m.name}</div></td>
+      <td><div class="td-sub">${m.role}</div></td>
+      <td><span class="badge badge-green">${m.badge || '—'}</span></td>
+      <td>${m.featured ? '<span class="badge badge-blue">Featured</span>' : '<span style="color:var(--text-light);font-size:.8rem">No</span>'}</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn btn-outline btn-sm" onclick="editMember(${m.id})">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteMember(${m.id})">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:32px;">No members yet. Add your first member!</td></tr>';
+}
+
+function openMemberModal(id) {
+  document.getElementById('member-modal-title').textContent = id ? 'Edit Member' : 'Add Member';
+  document.getElementById('member-edit-id').value = id || '';
+  document.getElementById('member-name').value = '';
+  document.getElementById('member-role').value = '';
+  document.getElementById('member-badge').value = '';
+  document.getElementById('member-featured').value = 'false';
+  document.getElementById('member-img-data').value = '';
+  document.getElementById('member-img-preview').style.display = 'none';
+  document.getElementById('member-img-icon').style.display = 'block';
+
+  if (id) {
+    const m = data.members.find(x => x.id === id);
+    if (m) {
+      document.getElementById('member-name').value = m.name;
+      document.getElementById('member-role').value = m.role;
+      document.getElementById('member-badge').value = m.badge || '';
+      document.getElementById('member-featured').value = m.featured ? 'true' : 'false';
+      document.getElementById('member-img-data').value = m.image || '';
+      if (m.image) {
+        document.getElementById('member-img-preview').src = m.image;
+        document.getElementById('member-img-preview').style.display = 'block';
+        document.getElementById('member-img-icon').style.display = 'none';
+      }
+    }
+  }
+  document.getElementById('member-modal').classList.add('open');
+}
+
+function closeMemberModal() {
+  document.getElementById('member-modal').classList.remove('open');
+}
+
+function handleMemberImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data64 = e.target.result;
+    document.getElementById('member-img-data').value = data64;
+    document.getElementById('member-img-preview').src = data64;
+    document.getElementById('member-img-preview').style.display = 'block';
+    document.getElementById('member-img-icon').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveMember() {
+  const id = document.getElementById('member-edit-id').value;
+  const name = document.getElementById('member-name').value.trim();
+  const role = document.getElementById('member-role').value.trim();
+  if (!name) { alert('Name is required'); return; }
+  data = getSiteData();
+  const memberData = {
+    name,
+    role,
+    badge: document.getElementById('member-badge').value.trim() || 'Member',
+    featured: document.getElementById('member-featured').value === 'true',
+    image: document.getElementById('member-img-data').value
+  };
+  if (id) {
+    const idx = data.members.findIndex(m => m.id === parseInt(id));
+    if (idx !== -1) data.members[idx] = { ...data.members[idx], ...memberData };
+  } else {
+    data.members.push({ id: getNextId(data.members), ...memberData });
+  }
+  saveSiteData(data);
+  closeMemberModal();
+  renderMembersTable();
+  showToast('Member saved successfully!');
+}
+
+function editMember(id) { openMemberModal(id); }
+
+function deleteMember(id) {
+  if (!confirm('Delete this member?')) return;
+  data = getSiteData();
+  data.members = data.members.filter(m => m.id !== id);
+  saveSiteData(data);
+  renderMembersTable();
+  showToast('Member deleted.');
+}
+
+// =================== GALLERY ===================
+function renderGalleryTable() {
+  data = getSiteData();
+  document.getElementById('gallery-table-body').innerHTML = data.gallery.map(g => `
+    <tr>
+      <td>
+        <div style="width:60px;height:48px;border-radius:8px;overflow:hidden;background:var(--green-pale);display:flex;align-items:center;justify-content:center;">
+          ${g.image ? `<img src="${g.image}" style="width:100%;height:100%;object-fit:cover;">` : '📸'}
+        </div>
+      </td>
+      <td><div class="td-name">${g.caption}</div></td>
+      <td><span class="badge badge-green">${g.category || '—'}</span></td>
+      <td>
+        <div class="action-btns">
+          <button class="btn btn-outline btn-sm" onclick="editGalleryItem(${g.id})">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteGalleryItem(${g.id})">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text-light);padding:32px;">No gallery items. Add your first photo!</td></tr>';
+}
+
+function openGalleryModal(id) {
+  document.getElementById('gallery-modal-title').textContent = id ? 'Edit Photo' : 'Add Gallery Photo';
+  document.getElementById('gallery-edit-id').value = id || '';
+  document.getElementById('gallery-caption').value = '';
+  document.getElementById('gallery-category').value = '';
+  document.getElementById('gallery-img-data').value = '';
+  document.getElementById('gallery-img-preview').style.display = 'none';
+  document.getElementById('gallery-img-icon').style.display = 'block';
+
+  if (id) {
+    const g = data.gallery.find(x => x.id === id);
+    if (g) {
+      document.getElementById('gallery-caption').value = g.caption;
+      document.getElementById('gallery-category').value = g.category || '';
+      document.getElementById('gallery-img-data').value = g.image || '';
+      if (g.image) {
+        document.getElementById('gallery-img-preview').src = g.image;
+        document.getElementById('gallery-img-preview').style.display = 'block';
+        document.getElementById('gallery-img-icon').style.display = 'none';
+      }
+    }
+  }
+  document.getElementById('gallery-modal').classList.add('open');
+}
+
+function closeGalleryModal() {
+  document.getElementById('gallery-modal').classList.remove('open');
+}
+
+function handleGalleryImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data64 = e.target.result;
+    document.getElementById('gallery-img-data').value = data64;
+    document.getElementById('gallery-img-preview').src = data64;
+    document.getElementById('gallery-img-preview').style.display = 'block';
+    document.getElementById('gallery-img-icon').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveGalleryItem() {
+  const id = document.getElementById('gallery-edit-id').value;
+  const caption = document.getElementById('gallery-caption').value.trim();
+  if (!caption) { alert('Caption is required'); return; }
+  data = getSiteData();
+  const gData = {
+    caption,
+    category: document.getElementById('gallery-category').value.trim(),
+    image: document.getElementById('gallery-img-data').value
+  };
+  if (id) {
+    const idx = data.gallery.findIndex(g => g.id === parseInt(id));
+    if (idx !== -1) data.gallery[idx] = { ...data.gallery[idx], ...gData };
+  } else {
+    data.gallery.push({ id: getNextId(data.gallery), ...gData });
+  }
+  saveSiteData(data);
+  closeGalleryModal();
+  renderGalleryTable();
+  showToast('Gallery item saved!');
+}
+
+function editGalleryItem(id) { data = getSiteData(); openGalleryModal(id); }
+
+function deleteGalleryItem(id) {
+  if (!confirm('Delete this photo?')) return;
+  data = getSiteData();
+  data.gallery = data.gallery.filter(g => g.id !== id);
+  saveSiteData(data);
+  renderGalleryTable();
+  showToast('Photo deleted.');
+}
+
+// =================== HOME ===================
+function loadHomeSection() {
+  data = getSiteData();
+  document.getElementById('home-hero-desc').value = data.siteInfo.heroDesc || '';
+
+  // Stats editor
+  document.getElementById('stats-editor').innerHTML = data.aboutUs.stats.map((s, i) => `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#f5f9f6;padding:14px;border-radius:var(--radius-sm);">
+      <div class="form-group" style="margin:0">
+        <label style="font-size:.75rem;">Number / Value</label>
+        <input type="text" class="form-control" id="stat-num-${i}" value="${s.number}" placeholder="500+">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label style="font-size:.75rem;">Label</label>
+        <input type="text" class="form-control" id="stat-label-${i}" value="${s.label}" placeholder="Members Nationwide">
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveHomeSection() {
+  data = getSiteData();
+  data.siteInfo.heroDesc = document.getElementById('home-hero-desc').value;
+  data.aboutUs.stats = data.aboutUs.stats.map((s, i) => ({
+    number: document.getElementById(`stat-num-${i}`).value,
+    label: document.getElementById(`stat-label-${i}`).value
+  }));
+  saveSiteData(data);
+  showToast('Home settings saved!');
+}
+
+// =================== ABOUT ===================
+function loadAboutSection() {
+  data = getSiteData();
+  const au = data.aboutUs;
+  document.getElementById('about-title').value = au.title;
+  document.getElementById('about-subtitle').value = au.subtitle;
+  document.getElementById('about-content').value = au.content;
+  document.getElementById('about-mission').value = au.mission;
+  document.getElementById('about-vision').value = au.vision;
+  document.getElementById('about-founder-name').value = au.founderName;
+  document.getElementById('about-founder-role').value = au.founderRole;
+  document.getElementById('about-founder-bio').value = au.founderBio;
+  renderValuesEditor();
+}
+
+function renderValuesEditor() {
+  data = getSiteData();
+  document.getElementById('values-editor').innerHTML = data.aboutUs.values.map((v, i) => `
+    <div style="display:grid;grid-template-columns:60px 1fr 2fr auto;gap:12px;align-items:center;margin-bottom:14px;padding:14px;background:#f5f9f6;border-radius:var(--radius-sm);">
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--text-light);">Icon</label>
+        <input type="text" class="form-control" style="text-align:center;" id="val-icon-${i}" value="${v.icon}" placeholder="🌿" maxlength="2">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--text-light);">Title</label>
+        <input type="text" class="form-control" id="val-title-${i}" value="${v.title}">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--text-light);">Description</label>
+        <input type="text" class="form-control" id="val-desc-${i}" value="${v.desc}">
+      </div>
+      <div style="padding-top:18px;">
+        <button class="btn btn-danger btn-sm" onclick="removeValue(${i})">🗑️</button>
+      </div>
+    </div>
+  `).join('') + `<button class="btn btn-outline btn-sm" onclick="saveValuesAndAdd()">💾 Save Values</button>`;
+}
+
+function saveAboutSection() {
+  data = getSiteData();
+  data.aboutUs.title = document.getElementById('about-title').value;
+  data.aboutUs.subtitle = document.getElementById('about-subtitle').value;
+  data.aboutUs.content = document.getElementById('about-content').value;
+  data.aboutUs.mission = document.getElementById('about-mission').value;
+  data.aboutUs.vision = document.getElementById('about-vision').value;
+  data.aboutUs.founderName = document.getElementById('about-founder-name').value;
+  data.aboutUs.founderRole = document.getElementById('about-founder-role').value;
+  data.aboutUs.founderBio = document.getElementById('about-founder-bio').value;
+  saveSiteData(data);
+  showToast('About Us saved!');
+}
+
+function saveValuesAndAdd() {
+  data = getSiteData();
+  data.aboutUs.values = data.aboutUs.values.map((v, i) => ({
+    icon: document.getElementById(`val-icon-${i}`).value || '🌿',
+    title: document.getElementById(`val-title-${i}`).value,
+    desc: document.getElementById(`val-desc-${i}`).value
+  }));
+  saveSiteData(data);
+  renderValuesEditor();
+  showToast('Values saved!');
+}
+
+function addValue() {
+  saveValuesAndAdd();
+  data = getSiteData();
+  data.aboutUs.values.push({ icon: '🌿', title: 'New Value', desc: 'Description here' });
+  saveSiteData(data);
+  renderValuesEditor();
+}
+
+function removeValue(i) {
+  saveValuesAndAdd();
+  data = getSiteData();
+  data.aboutUs.values.splice(i, 1);
+  saveSiteData(data);
+  renderValuesEditor();
+  showToast('Value removed.');
+}
+
+// =================== JOIN ===================
+function loadJoinSection() {
+  data = getSiteData();
+  const jp = data.joinPage;
+  document.getElementById('join-title').value = jp.title;
+  document.getElementById('join-subtitle').value = jp.subtitle;
+  document.getElementById('join-description').value = jp.description;
+  document.getElementById('join-form-link').value = jp.formLink || '';
+  document.getElementById('join-benefits').value = jp.benefits.join('\n');
+}
+
+function saveJoinSection() {
+  data = getSiteData();
+  data.joinPage.title = document.getElementById('join-title').value;
+  data.joinPage.subtitle = document.getElementById('join-subtitle').value;
+  data.joinPage.description = document.getElementById('join-description').value;
+  data.joinPage.formLink = document.getElementById('join-form-link').value.trim();
+  data.joinPage.benefits = document.getElementById('join-benefits').value
+    .split('\n').map(b => b.trim()).filter(Boolean);
+  saveSiteData(data);
+  showToast('Join page saved!');
+}
+
+// =================== SOCIAL ===================
+function loadSocialSection() {
+  data = getSiteData();
+  document.getElementById('social-facebook').value = data.siteInfo.facebook;
+  document.getElementById('social-email').value = data.siteInfo.email;
+}
+
+function saveSocialSection() {
+  data = getSiteData();
+  data.siteInfo.facebook = document.getElementById('social-facebook').value.trim();
+  data.siteInfo.email = document.getElementById('social-email').value.trim();
+  saveSiteData(data);
+  showToast('Social links saved!');
+}
+
+// =================== SITE INFO ===================
+function loadSiteInfo() {
+  data = getSiteData();
+  document.getElementById('site-name').value = data.siteInfo.name;
+  document.getElementById('site-tagline').value = data.siteInfo.tagline;
+}
+
+function saveSiteInfo() {
+  data = getSiteData();
+  data.siteInfo.name = document.getElementById('site-name').value;
+  data.siteInfo.tagline = document.getElementById('site-tagline').value;
+  saveSiteData(data);
+  showToast('Site info saved!');
+}
+
+function resetAllData() {
+  if (!confirm('⚠️ Are you sure? This will reset ALL content to defaults. Cannot be undone!')) return;
+  if (!confirm('Last chance — reset everything?')) return;
+  localStorage.removeItem('ecosocial_data');
+  location.reload();
+}
+
+// =================== GLOBAL SAVE ===================
+function saveAll() {
+  const active = sections.find(s => document.getElementById('section-' + s).classList.contains('active'));
+  if (active === 'home') saveHomeSection();
+  else if (active === 'about') { saveAboutSection(); saveValuesAndAdd(); }
+  else if (active === 'join') saveJoinSection();
+  else if (active === 'social') saveSocialSection();
+  else if (active === 'siteinfo') saveSiteInfo();
+  else showToast('Changes are auto-saved per section!');
+}
+
+// =================== TOAST ===================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// =================== MODAL CLOSE ON BG CLICK ===================
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+});
+
+// =================== RESPONSIVE ===================
+if (window.innerWidth < 900) {
+  document.getElementById('burger-btn').style.display = 'flex';
+}
+
+// =================== INIT ===================
+renderDashboard();
+</script>
+</body>
+</html>
